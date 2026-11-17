@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TRINEPLAY</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080808;color:white;font-family:Arial}
+header{text-align:center;padding:25px;color:#e9bd55;font-size:32px;font-weight:bold}
+.balance{margin:15px;padding:25px;background:#191919;border:1px solid #bd943c;border-radius:15px;text-align:center}
+.balance h1{color:#e9bd55}
+button{background:linear-gradient(90deg,#f4d477,#b78325);border:0;border-radius:10px;padding:13px;font-weight:bold;margin:5px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px}
+.game{background:#191919;border:1px solid #76591e;border-radius:14px;padding:20px;text-align:center}
+.game button{width:100%}
+#result{text-align:center;color:#e9bd55;padding:20px}
+</style>
+</head>
+<body>
+<header>👑 TRINEPLAY</header>
 
+<div class="balance">
+<p>ТВІЙ БАЛАНС</p>
+<h1><span id="balance">1000</span> ₴</h1>
+<button onclick="add()">＋ Поповнити</button>
+<button onclick="withdraw()">− Вивести</button>
+</div>
+
+<h2 style="text-align:center;color:gold">🎮 ІГРИ</h2>
+
+<div class="games">
+<div class="game">🎰<h3>Слоти</h3><button onclick="play('Слоти')">Грати</button></div>
+<div class="game">💣<h3>Mines</h3><button onclick="play('Mines')">Грати</button></div>
+<div class="game">🎲<h3>Dice</h3><button onclick="play('Dice')">Грати</button></div>
+<div class="game">🎡<h3>Колесо</h3><button onclick="play('Колесо')">Грати</button></div>
+</div>
+
+<div id="result">Вітаємо у TRINEPLAY!</div>
+
+<script>
+let balance=1000;
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+
+function update(){
+document.getElementById('balance').textContent=balance;
+}
+
+function add(){
+balance+=100;
+update();
+alert('Додано 100 віртуальних балів!');
+}
+
+function withdraw(){
+alert('Демо-режим: реальні виплати недоступні.');
+}
+
+function play(game){
+if(balance<10){
+alert('Недостатньо балів!');
+return;
+}
+balance-=10;
+let win=Math.random()<0.45;
+if(win)balance+=30;
+update();
+document.getElementById('result').textContent=
+win?'🎉 '+game+': Виграш 30 балів!':'😢 '+game+': Спробуй ще!';
+}
+</script>
+</body>
+</html>
